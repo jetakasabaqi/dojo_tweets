@@ -161,5 +161,42 @@ def delete_tweet(tweet_id):
     return redirect('/success')
 
 
+@app.route('/tweets/<tweet_id>/edit')
+def render_edit_tweet(tweet_id):
+    print(tweet_id)
+    mysql = connectToMySQL("dojo_tweets")
+    query = "SELECT * FROM tweets where tweets.id =%(tweet_id)s;"
+    data ={
+        'tweet_id': tweet_id
+    }
+    result = mysql.query_db(query, data)
+
+
+    return render_template('edit_tweet.html', tweet = result[0])
+
+
+@app.route('/tweets/<tweet_id>/update', methods=["POST"])
+def update_tweet(tweet_id):
+    is_valid = True
+    if len(request.form['tweet']) < 1 or len(request.form['tweet'])>255:
+        is_valid = False
+        flash("Tweet needs to be between 1 and 255")
+    if is_valid:
+        flash("Succesfully tweeted!")
+        mysql = connectToMySQL("dojo_tweets")
+        data ={
+            'tweet': request.form['tweet'],
+            'user_id': session['userid']
+        }
+        query = "UPDATE tweets set tweets.content =%(tweet)s where tweets.users_id =  %(user_id)s;"
+        result = mysql.query_db(query, data)
+        return redirect('/success')
+
+    return redirect(f'/tweets/{tweet_id}/edit')
+
+
+
+
+
 if __name__== "__main__":
     app.run(debug=True)

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+        <header>
+                <p >Dojo Tweets </p>
+                <div class='logout'>
+                <button class="btn btn-info"><a href='/logout'>Logout</a></button>
+            </div>
+            </header>
+            <main>
+                <h1> Update a tweet </h1>
+                <form action="/tweets/{{tweet['id']}}/update" method="POST">
+                    <textarea  cols="30" rows="5" name="tweet">{{tweet['content']}}
+                        
+                    </textarea>
+                    <button class="btn btn-info" type="submit">Submit</button>
+                    <button class="btn btn-info" type="submit"><a href="/success">Cancel</a></button>
+
+                </form>  
+                {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+                {% if messages %}                            <!-- check if there are any messages -->
+                    {% for message in messages %}            <!-- loop through the messages -->
+                    <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                  {% endfor %}
+              {% endif %}
+          {% endwith %}
+</body>
+</html>
