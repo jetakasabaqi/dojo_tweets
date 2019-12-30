@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body  class = 'flex'>
+    <form class="form-horizontal container" action='/create-user' method="POST">
+        <fieldset>
+          <div id="legend">
+            <legend class="">Register</legend>
+          </div>
+          <div class="control-group">
+            <!-- Username -->
+            <label class="control-label"  for="firstName">First Name</label>
+            <div class="controls">
+              <input type="text" id="firstName" name="firstName" class="input-xlarge">
+            </div>
+          </div>
+       
+          <div class="control-group">
+            <label class="control-label" for="lastName">Last Name</label>
+            <div class="controls">
+              <input type="text" id="lastName" name="lastName" class="input-xlarge">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+              <input type="text" id="email" name="email" class="input-xlarge">
+            </div>
+          </div>
+       
+          <div class="control-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+              <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+            </div>
+          </div>
+          
+       
+          <div class="control-group">
+            <!-- Password -->
+            <label class="control-label"  for="password_confirm">Confirm Password</label>
+            <div class="controls">
+              <input type="password" id="password_confirm" name="password_confirm"  class="input-xlarge">
+            </div>
+          </div>
+          {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+              {% if messages %}                            <!-- check if there are any messages -->
+                  {% for message in messages %}            <!-- loop through the messages -->
+                  <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+          <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+              <button class="btn btn-primary">Register</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    
+      <form class="form-horizontal container" action='/login-user' method="POST">
+        <fieldset>
+          <div id="legend">
+            <legend class="">Login</legend>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+              <input type="text" id="email" name="email" class="input-xlarge">
+            </div>
+          </div>
+          <div class="control-group">
+            <!-- Password-->
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+              <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+            </div>
+          </div>
+          {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
+              {% if messages %}                            <!-- check if there are any messages -->
+                  {% for message in messages %}            <!-- loop through the messages -->
+                  <p>{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+          <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+              <button class="btn btn-primary">Login</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+</body>
+</html>
