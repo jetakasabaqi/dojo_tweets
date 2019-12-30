@@ -10,15 +10,17 @@
 </head>
 <body>
     <header>
-        <p>Dojo Tweets </p>
+        <p >Dojo Tweets </p>
+        <div class='logout'>
         <p>Welcome {{user['first_name']}}</p>
-        <button><a href='/logout'>Logout</a></button>
+        <button class="btn btn-info"><a href='/logout'>Logout</a></button>
+    </div>
     </header>
     <main>
         <h1> Write a tweet </h1>
         <form action="/tweets/create" method="POST">
-            <textarea name="tweet"></textarea>
-            <button type="submit">Submit</button>
+            <textarea placeholder="What's on your mind today?" cols="30" rows="5" name="tweet"></textarea>
+            <button class="btn btn-info" type="submit">Submit</button>
         </form>     
         {% with messages = get_flashed_messages() %}     <!-- declare a variable called messages -->
         {% if messages %}                            <!-- check if there are any messages -->
@@ -27,19 +29,20 @@
           {% endfor %}
       {% endif %}
   {% endwith %}
-        <div class="feed">
-            <h1>Your Feed</h1>
+            <h1>Your Feed: </h1>
             {% for tweet in tweets:%}
+            <div class="feed">
             <div class="tweet">
             <p>{{tweet['first_name']}} says:</p>
             <p>{{tweet['tweet']}}</p>
         </div>
             {%endfor%}
+    
        
         </div>
     </main>
-    
- 
+
+
  
 </body>
 </html>

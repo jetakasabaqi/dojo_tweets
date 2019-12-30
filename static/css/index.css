@@ -15,12 +15,31 @@ body{
 }
 div.tweet{
     border: 1px solid black;
-    padding: 10px;
-    width: 25%;
+    padding: 10px 160px  10px 10px  ;
+    text-align: start;
     margin: 5px;
 }
 div.feed{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+div.logout{
+    width: fit-content;
+    display: flex;
+    align-items: baseline;
+}
+div.logout p{
+    margin-right: 25px;
+   
+}
+div.logout button a{
+    color: white;
+
+}
+
+textarea{
+    background: url(images/benice.png) center center no-repeat; /* This ruins default border */
+  border: 1px solid #888; 
 }
