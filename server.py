@@ -44,7 +44,7 @@ def add_friend_to_db():
     
     if is_valid:
         flash("Succesfully registered!")
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("dojo_tweets")
         pw_hash = bcrypt.generate_password_hash(request.form['password'])  
         data ={
             'fn': request.form['firstName'],
@@ -53,7 +53,7 @@ def add_friend_to_db():
             'psw': pw_hash
         }
         
-        query = "INSERT INTO users(first_name, last_name, email,password) VALUES(%(fn)s, %(ln)s,%(em)s, %(psw)s);"
+        query = "INSERT INTO users(fname, lname, email,password) VALUES(%(fn)s, %(ln)s,%(em)s, %(psw)s);"
         result = mysql.query_db(query, data)
         if result:
             print(result)
@@ -70,7 +70,7 @@ def login_user():
         flash("Invalid email address!")
     
     if isValid:
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("dojo_tweets")
         data ={
         'email': request.form['email'],
         'psw': request.form['password'] 
@@ -87,16 +87,19 @@ def login_user():
 def welcome_user():
 
     if 'userid' in session:
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("dojo_tweets")
         query = "SELECT * FROM users WHERE id = %(user)s;"
-        query2 = "SELECT * FROM tweets inner join users on tweets.user_id = users.id"
+        query2 = "SELECT * FROM tweets inner join users on tweets.users_id = users.id"
+
         data ={
         'user': session['userid']
         }  
         result = mysql.query_db(query,data)
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("dojo_tweets")
         result2 = mysql.query_db(query2)
-        print(result2)
+        mysql = connectToMySQL("dojo_tweets")
+
+
         if result:
             user = result[0]
             print(user)
@@ -117,17 +120,45 @@ def create_tweet():
         flash("Tweet needs to be between 1 and 255")
     if is_valid:
         flash("Succesfully tweeted!")
-        mysql = connectToMySQL("basic_registration")
+        mysql = connectToMySQL("dojo_tweets")
         data ={
             'tweet': request.form['tweet'],
             'user_id': session['userid']
         }
-        query = "INSERT INTO tweets(tweet, user_id) VALUES(%(tweet)s, %(user_id)s);"
+        query = "INSERT INTO tweets(content, users_id) VALUES(%(tweet)s, %(user_id)s);"
         result = mysql.query_db(query, data)
         return redirect('/success')
 
     return redirect('/')
 
+
+@app.route('/tweets/<tweet_id>/add_like')
+def like_tweet(tweet_id):
+    print(tweet_id)
+    mysql = connectToMySQL("dojo_tweets")
+    query = "INSERT INTO liked_tweets(tweets_id, users_id) VALUES(%(tweet_id)s, %(user_id)s);"
+    data ={
+        'tweet_id': tweet_id,
+        'user_id': session['userid']
+        }
+    result = mysql.query_db(query, data)
+    return redirect('/success')
+
+
+@app.route('/tweets/<tweet_id>/delete')
+def delete_tweet(tweet_id):
+    print(tweet_id)
+    mysql = connectToMySQL("dojo_tweets")
+    query = "DELETE FROM liked_tweets where liked_tweets.tweets_id = %(tweet_id)s;"
+    query2 = "DELETE FROM tweets where tweets.id = %(tweet_id)s;"
+    data ={
+        'tweet_id': tweet_id
+        }
+    mysql.query_db(query, data)
+    mysql = connectToMySQL("dojo_tweets")
+    mysql.query_db(query2, data)
+    
+    return redirect('/success')
 
 
 if __name__== "__main__":

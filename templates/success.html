@@ -33,9 +33,13 @@
             {% for tweet in tweets:%}
             <div class="feed">
             <div class="tweet">
-            <p>{{tweet['first_name']}} says:</p>
-            <p>{{tweet['tweet']}}</p>
-        </div>
+            <p>{{tweet['fname']}} says:</p>
+            <p>{{tweet['content']}}</p>
+
+            <button class="btn btn-info" type="submit"><a href="/tweets/{{tweet['id']}}/add_like">Like</a></button>
+            <button class="btn btn-info" type="submit"><a href="/tweets/{{tweet['id']}}/delete">Delete</a></button>
+
+            </div>
             {%endfor%}
     
        
